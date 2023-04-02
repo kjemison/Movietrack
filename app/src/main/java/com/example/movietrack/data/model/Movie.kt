@@ -1,4 +1,4 @@
-package com.example.movietrack.data.model.responses
+package com.example.movietrack.data.model
 
 data class Movie(
     val adult: Boolean,
