@@ -1,41 +1,96 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.movietrack.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.compose.AppTheme
+import com.example.movietrack.data.model.Movie
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun MainScaffold() {
+fun MainScaffold(modifier: Modifier = Modifier) {
     AppTheme() {
-        Scaffold(
-            topBar = { TopBar() },
-            floatingActionButton = { FloatingButton() },
-            content = {it
-                Text(text = "Placeholder")
+        Surface() {
+            Column(
+                modifier.fillMaxHeight()
+            ) {
+                SearchBar(
+                    hint = "Search for a movie",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp)
+                )
+                MovieList(movies = null)
             }
-        )
+        }
     }
 }
 
 @Composable
-fun TopBar() {
-    SmallTopAppBar(
-        title = { Text(text = "_'s Movie List") }
+fun SearchBar(
+    modifier: Modifier = Modifier,
+    hint: String = "",
+    onSearch: (String) -> Unit = {}
+) {
+    var text by remember { mutableStateOf("") }
+    var isHintDisplayed by remember { mutableStateOf(hint != "") }
+
+    OutlinedTextField(
+        value = text,
+        maxLines = 1,
+        singleLine = true,
+        shape = CircleShape,
+        label = {
+            Text("Search for a movie")
+        },
+        onValueChange = {
+            text = it
+            onSearch(it)
+        },
+        modifier = modifier
+            .fillMaxWidth()
     )
 }
 
 @Composable
-fun FloatingButton() {
-    FloatingActionButton(
-        onClick = { /*TODO*/ },
-        content = {}
+fun MovieList(
+    movies: List<Movie>?,
+    modifier: Modifier = Modifier
+) {
+    val tempList = (1..10).map {
+        it.toString()
+    }
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(128.dp),
+        content = {
+            items(tempList.size) {
+                MovieItem()
+            }
+        },
+        modifier = Modifier
+            .fillMaxSize()
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MovieItem() {
+    Card(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp
+        ),
+        content = {
+            Text(text = "Placeholder")
+        }
     )
 }
 

@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppContainer {
-    val tmdbRepository: TmdbRepository
+    val movieRepository: MovieRepository
 }
 
 class DefaultAppContainer : AppContainer {
@@ -21,7 +21,7 @@ class DefaultAppContainer : AppContainer {
         retrofit.create(TmdbApiService::class.java)
     }
 
-    override val tmdbRepository: TmdbRepository by lazy {
-        DefaultTmdbRepository(tmdbApiService = retrofitService)
+    override val movieRepository: MovieRepository by lazy {
+        DefaultMovieRepository(tmdbApiService = retrofitService)
     }
 }
