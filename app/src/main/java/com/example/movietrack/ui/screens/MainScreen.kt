@@ -2,36 +2,56 @@
 
 package com.example.movietrack.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.AppTheme
+import com.example.movietrack.R
+import com.example.movietrack.data.DefaultMovieRepository
+import com.example.movietrack.data.MovieRepository
 import com.example.movietrack.data.model.Movie
 
 
 @Composable
-fun MainScaffold(modifier: Modifier = Modifier) {
-    AppTheme() {
-        Surface() {
-            Column(
-                modifier.fillMaxHeight()
-            ) {
-                SearchBar(
-                    hint = "Search for a movie",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp)
-                )
-                MovieList(movies = null)
-            }
-        }
+fun HomeScreen(
+    movieUiState: MovieUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    when (movieUiState) {
+        is MovieUiState.Loading -> LoadingScreen(modifier)
+        is MovieUiState.Success -> MovieList(movieUiState.movies, modifier)
+        else -> ErrorScreen(retryAction, modifier)
     }
+}
+
+@Composable
+fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize()
+    ) {
+        Image(
+            modifier = Modifier.size(200.dp),
+            painter = painterResource(R.drawable.loading_img),
+            contentDescription = stringResource(R.string.loading)
+        )
+    }
+}
+
+@Composable
+fun LoadingScreen(modifier: Modifier = Modifier) {
+    
 }
 
 @Composable
@@ -103,14 +123,5 @@ fun DefaultPreview() {
             Button(onClick = { /*TODO*/ }) {}
             Button(onClick = { /*TODO*/ }) {}
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun Preview2() {
-    AppTheme(useDarkTheme = false) {
-        MainScaffold()
     }
 }

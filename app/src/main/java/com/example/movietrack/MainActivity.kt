@@ -7,16 +7,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.AppTheme
-import com.example.movietrack.ui.screens.MainScaffold
+import com.example.movietrack.ui.MainApp
 
-val apiKey = BuildConfig.TMDB_API_KEY
+const val apiKey = BuildConfig.TMDB_API_KEY
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                MainScaffold()
+                MainApp()
             }
         }
     }

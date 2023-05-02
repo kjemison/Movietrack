@@ -24,6 +24,10 @@ class MovieViewModel(val movieRepository: MovieRepository) : ViewModel()
 {
     var movieUiState: MovieUiState by mutableStateOf(MovieUiState.Loading)
 
+    init {
+        getPopularMovies()	
+    }
+
     fun getPopularMovies() {
         viewModelScope.launch {
             movieUiState = MovieUiState.Loading
@@ -40,7 +44,7 @@ class MovieViewModel(val movieRepository: MovieRepository) : ViewModel()
             initializer {
                 val application = (this[APPLICATION_KEY] as MoviesApplication)
                 val movieRepository = application.container.movieRepository
-                MovieViewModel(movieRepository)
+                MovieViewModel(movieRepository = movieRepository)
             }
         }
     }

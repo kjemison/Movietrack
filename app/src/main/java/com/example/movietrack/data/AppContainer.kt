@@ -10,7 +10,7 @@ interface AppContainer {
 
 class DefaultAppContainer : AppContainer {
 
-    private val baseUrl = "https://api.themoviedb.org/3"
+    private val baseUrl = "https://api.themoviedb.org"
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
